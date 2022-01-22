@@ -10,6 +10,7 @@ router.get('/', function(req, res, next) {
     res.redirect('/history');
   }
   */
+ console.log("prueba");
   const data = {
     title: 'Inicio - DoctCom Money Exchange',
     user: {
