@@ -1,2 +1,79 @@
 <%- include('templates/header'); -%>
+<div class="container">
+  <div class="row">
+    <div class="col-md-5">
+      <div class="calculator">
+        <form>
+          <!-- <div class="h6 text-center tarifa">
+            Tipo de cambio del día: <b id="valueChange"></b>
+          </div> -->
+          <div class="h6 text-center tarifa">Tipo de cambio del día: <b>S/.  <%-data.ratio-%></b></div>
+
+          <div class="form-group">
+            <label for="solesInput">Soles</label>
+            <input
+              type="text"
+              class="form-control form-control-lg"
+              id="solesInput1"
+              autocomplete="false"
+            />
+          </div>
+          <div class="d-grid gap-2">
+            <button class="cambio btn btn-light btn-sm bt-block" type="button">
+              <i class="fas fa-retweet"></i>
+            </button>
+          </div>
+          <div class="form-group">
+            <label for="dolaresInput">Dolares</label>
+            <input
+              type="text"
+              class="form-control form-control-lg"
+              id="dolaresInput1"
+              autocomplete="false"
+            />
+          </div>
+          <br />
+          <div class="form-group">
+            <button class="btn btn-lg btn-warning bt-block btn-login" type="submit">
+              Iniciar sesión
+            </button>
+          </div>
+        </form>
+      </div>
+    
+      <div class="mensaje-registrar text-center">
+        <p>¿Aún no tienes una cuenta con nosotros?</p>
+        <a href="#" class="link-primary lead" style="color: #06afe4"
+          >!Registrate ahora!</a
+        >
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  let ratio = /<%-data.ratio-%>/.source;
+  // let valueChange = document.getElementById("valueChange");
+  let solesInput = document.getElementById("solesInput1");
+  let dolaresInput = document.getElementById("dolaresInput1");
+  console.log(data);
+
+  document.addEventListener("keyup", function () {
+    dolaresInput.value = Math.round(solesInput.value * ratio * 100) / 100;
+  });
+
+  let url =
+    "http://192.190.42.160/ServicioDivisaRest/divisa?deDivisa=PEN&haciaDivisa=USD&monto=1";
+  fetch(url, {
+    method: "POST",
+    body: {},
+    headers: {
+      "Content-type": "application/json",
+    },
+  })
+    .then((response) => response.json())
+    // .then(json => console.log(json))
+    .then((json) => {
+      // valueChange.innerText = "S/. " + json;
+    });
+</script>
 <%- include('templates/footer'); -%>

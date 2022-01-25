@@ -5,7 +5,8 @@ var router = express.Router();
 
 router.get('/', function(req, res, next) {
   const data = {
-    title:  'Operación - DotCom Money Exchange',
+    title:  'Inicio - DotCom Money Exchange',
+    ratio: "3.85"
   }
   res.render('operation', { data: data });
 });
