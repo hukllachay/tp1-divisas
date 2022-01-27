@@ -16,7 +16,7 @@
                 <label for="banco" class="text-left">Seleccione el banco de origen de tu dinero</label>
                 <select class="form-control" id="banco">
                      <% data.bancos.forEach(function(banco) { %>
-                        <option value="<%= banco.id %>"><%= banco.nombre %></option>
+                        <option value="<%= banco.id %>"><%= banco.name %></option>
                      <% }); %>
                 </select>
             </div>
