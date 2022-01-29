@@ -3,7 +3,7 @@ var pool = require('./database');
 const BankModel = function() { 
 
     this.List = async () => {
-        var result = await pool.query('CALL usp_bancolistar2()')
+        var result = await pool.query('CALL usp_banco_listar()')
             .then((result) => {
                 return result[0];
             }).catch((err) => {

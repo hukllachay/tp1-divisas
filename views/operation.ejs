@@ -10,50 +10,51 @@
             <button type="button" class="btn">3</button>
         </div>
     </div>
-    <div class="formulario col-sm text-left">
-        <form action="">
-            <div class="form-group ">
-                <label for="banco" class="text-left">Seleccione el banco de origen de tu dinero</label>
-                <select class="form-control" id="banco">
-                     <% data.bancos.forEach(function(banco) { %>
-                        <option value="<%= banco.id %>"><%= banco.name %></option>
-                     <% }); %>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="cuentaAhorros">Seleccione la cuenta en la que recibiras tu dinero</label>
-                <select class="form-control" id="cuentaAhorros">
-                    <option>cuenta 1</option>
-                    <option>cuenta 2</option>
-                    <option>cuenta 3</option>
+    <div class="row d-flex justify-content-center">
+        <div class="formulario col-sm-12 col-md-6 col-xl-4 text-left">
+            <form action="">
+                <div class="form-group ">
+                    <label for="banco" class="text-left">Seleccione el banco de origen de tu dinero</label>
+                    <select class="form-control" id="banco">
+                        <% data.bancos.forEach(function(banco) { %>
+                            <option value="<%= banco.id %>"><%= banco.name %></option>
+                        <% }); %>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="cuentaAhorros">Seleccione el origen de tus fondos</label>
+                    <select class="form-control" id="cuentaOrigen">
+                        <% data.cuentasBancarias.forEach(function(cuentaBancaria) { %>
+                            <option value="<%= cuentaBancaria.id %>"><%= cuentaBancaria.name %></option>
+                        <% }); %>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="origenFondos">Seleccione la cuenta en la que recibiras tu dinero</label>
+                    <select class="form-control" id="origenDestino">
+                        <% data.cuentasBancarias.forEach(function(cuentaBancaria) { %>
+                            <option value="<%= cuentaBancaria.id %>"><%= cuentaBancaria.name %></option>
+                        <% }); %>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="solesInput">Soles</label>
+                    <input type="text" class="form-control" id="solesInput">
+                </div>
+                <div class="d-grid gap-2 ">
+                    <button class="cambio btn btn-light" type="button"><i class="fas fa-sync-alt"></i></button>
+                </div>
+                <div class="form-group">
+                    <label for="dolaresInput">Dolares</label>
+                    <input type="text" class="form-control" id="dolaresInput">
+                </div>
+                <div class="h6 text-center">Tipo de cambio del día: S/. <%-data.ratio-%></div>
+                <div class="d-grid gap-2">
+                    <button type="button" class="btn btn-light btn-continuar">Continuar <i class="far fa-hand-point-right"></i></button>
+                </div>
 
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="origenFondos">Seleccione el origen de tus fondos</label>
-                <select class="form-control" id="origenFondos">
-                    <option>cuenta 1</option>
-                    <option>cuenta 2</option>
-                    <option>cuenta 3</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="solesInput">Soles</label>
-                <input type="text" class="form-control" id="solesInput">
-            </div>
-            <div class="d-grid gap-2 ">
-                <button class="cambio btn btn-light" type="button"><i class="fas fa-sync-alt"></i></button>
-            </div>
-            <div class="form-group">
-                <label for="dolaresInput">Dolares</label>
-                <input type="text" class="form-control" id="dolaresInput">
-            </div>
-            <div class="h6 text-center">Tipo de cambio del día: S/. <%-data.ratio-%></div>
-            <div class="d-grid gap-2">
-                <button type="button" class="btn btn-light btn-continuar">Continuar <i class="far fa-hand-point-right"></i></button>
-            </div>
-
-        </form>
+            </form>
+        </div>
     </div>
 </main>
 
@@ -65,18 +66,8 @@
     document.addEventListener('keyup', function(){
       dolaresInput.value = Math.round((solesInput.value * ratio) * 100) / 100;
     });
-  
-    // let url = "http://192.190.42.160/ServicioDivisaRest/divisa?deDivisa=PEN&haciaDivisa=USD&monto=1";
-    // fetch(url, {
-    //           method: 'POST',
-    //           body: {},
-    //           headers: {
-    //             "Content-type": "application/json"
-    //           }
-    //         })
-    //     .then(response => response.json())
-    //     .then(json => console.log(json))
-  
-  </script>
+
+    
+</script>
 
 <%- include('templates/footer'); -%>

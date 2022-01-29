@@ -4,35 +4,52 @@ var router = express.Router();
 
 var OperationService = require('../service/operationService');
 var BankService = require('../service/bankService');
+var BankAccountService = require('../service/bankAccountService');
 
 /* GET home page. */
 
 router.get('/', async function (req, res, next) {
-  var ratio = 0;
-  var data = {};
+  var data = { title: 'Iniciar operación de cambio de divisas'};
 
   var bankService = new BankService();
+  var bankAccountService = new BankAccountService();
+  
+  //Trae lista de bancos y cuentas del usuario
   var bankResult = await bankService.List();
-
-  // if (validate === false)
-  //   res.render('operation', { data: data });
+  var bankAccountResult = await bankAccountService.SearchByUser(1); // 1 = usuario_id
 
   data.bancos = bankResult;
-  console.log(bankResult);
+  data.cuentasBancarias = bankAccountResult;
+  //console.log(bankAccountResult);
 
-  // Consumo del servicio desde el cliente
+  //Consumo del servicio desde el cliente
   var url = 'http://192.190.42.160/ServicioDivisa/CambioActual.asmx?wsdl';
-  await soap.createClientAsync(url).then((client) => {
+  soap.createClientAsync(url).then((client) => {
     return client.DivisaActual({}, function (arg, arg2) {
-      ratio = arg2.DivisaActualResult;
-      data = {
-        ratio: ratio
-      }
+      data.ratio = arg2.DivisaActualResult;
+
+      res.render('operation', { data: data });
     });
   });
+  
+  // prueba guardar operación
+  setTimeout(() => {
+    var operationService = new OperationService();
+    var item = {
+      sourceAccountId: 1,
+      targerAccountId: 3,
+      sourceAmount: 100,
+      exchangeRate: 3.85,
+      targetAmount: 38.5,
+      operationDate: new Date(Date.now()),
+      userId: 1
+    };
+    //console.log(item);
 
-  data.title = 'Iniciar operación de cambio de divisas'
-  res.render('operation', { data: data });
+    operationService.Save(item);
+  }, 5000);
+
+  //res.render('operation', { data: data });
 });
 
 

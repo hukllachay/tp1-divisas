@@ -9,11 +9,12 @@ const OperationModel = function() {
     // this.id_tipo_documento = operation.id_tipo_documento;
     // this.contrasena = operation.contrasena;
 
-    this.Create = async (newOperation) => {
-        var result = await pool.query('CALL usp_bancolistar()')
+    this.Save = async (item) => {
+        //var result = await pool.query('CALL usp_operacion_guardar(?)', item)
+        var result = await pool.query('CALL usp_operacion_guardar(?,?,?,?,?,?,?)', [item.pcuentaorigen_id, item.pcuentadestino_id, item.pmontoorigen, item.ptipocambio, item.pmontodestino, item.fechaoperacion, item.usuario_id ])
             .then((result) => {
-                return result[0];
-            }).catch((error) => {
+                return result;
+            }).catch((err) => {
                 console.log("hubo error: ", err);
                 result(err, null);
                 return;
@@ -22,8 +23,8 @@ const OperationModel = function() {
         return result;
     }
 
-    this.FindById = async (operacionId, result) => {
-        var bancos = pool.query('CALL usp_bancolistar()');
+    this.Detail = async (operacionId, result) => {
+        var bancos = pool.query('CALL usp_banco_listar()');
 
     }
 
