@@ -17,9 +17,8 @@ const OperationService = function() {
 
         var result = await operationModel.Save(itemFormatted);
 
-        item.id = result['OkPacket'].affectedRows > 0 ? insertId : 0;
+        item.id = result.affectedRows > 0 ? insertId : 0;
 
-        console.log(result, 'OperationService');
     };
 
 }
