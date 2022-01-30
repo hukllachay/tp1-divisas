@@ -4,7 +4,6 @@ module.exports = {
         user: 'root',
         password: '1234',
         database: 'tp_divisa',
-        insecureAuth : true
     },
     database: {
         host: 'programmersarmy.net',
