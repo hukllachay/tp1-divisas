@@ -13,7 +13,8 @@ router.get('/', function(req, res, next) {
       ratio = arg2.DivisaActualResult;
       const data = {
         title:  'Inicio - DotCom Money Exchange',
-        ratio: ratio
+        ratio: ratio,
+        modoCambio: 'SD'
       }
       res.render('index', { data: data });
     });
