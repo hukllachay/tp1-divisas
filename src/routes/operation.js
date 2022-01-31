@@ -9,17 +9,17 @@ var BankAccountService = require('../service/bankAccountService');
 /* GET home page. */
 
 router.get('/', async function (req, res, next) {
-  var data = { title: 'Iniciar operación de cambio de divisas'};
+  var data = { title: 'Iniciar operación de cambio de divisas' };
 
   var bankService = new BankService();
   var bankAccountService = new BankAccountService();
-  
+
   //Trae lista de bancos y cuentas del usuario
   var bankResult = await bankService.List();
   var bankAccountResult = await bankAccountService.SearchByUser(1); // 1 = usuario_id
 
   data.bancos = bankResult;
-  data.cuentasBancarias = bankAccountResult;
+  data.cuentasBancarias = JSON.stringify(bankAccountResult);
   //console.log(bankAccountResult);
 
   //Consumo del servicio desde el cliente
@@ -31,26 +31,52 @@ router.get('/', async function (req, res, next) {
       res.render('operation', { data: data });
     });
   });
-  
-  // prueba guardar operación
-  setTimeout(() => {
-    var operationService = new OperationService();
-    var item = {
-      sourceAccountId: 1,
-      targerAccountId: 3,
-      sourceAmount: 100,
-      exchangeRate: 3.85,
-      targetAmount: 38.5,
-      operationDate: new Date(Date.now()),
-      userId: 1
-    };
-    //console.log(item);
 
-    operationService.Save(item);
-  }, 5000);
+  // prueba guardar operación
+  // setTimeout(() => {
+  //   var operationService = new OperationService();
+  //   var item = {
+  //     sourceAccountId: 1,
+  //     targerAccountId: 3,
+  //     sourceAmount: 100,
+  //     exchangeRate: 3.85,
+  //     targetAmount: 38.5,
+  //     operationDate: new Date(Date.now()),
+  //     userId: 1
+  //   };
+  //console.log(item);
+
+  //   operationService.Save(item);
+  // }, 5000);
 
   //res.render('operation', { data: data });
 });
+
+router.post('/save', async (request, response) => {
+  var data = await request.body;
+  var item = data.item;
+
+  item.operationDate = new Date(Date.now());
+  item.userId = 1;
+
+  console.log(item, "item");
+
+  var operationService = new OperationService();
+
+  var result = await operationService.Save(item);
+  console.log(result, "result");
+  //response.json(JSON.stringify(result))
+
+  // const data = await request.body;
+  // const gotData = data.categoryChoice;
+  // const category = gotData;
+  // console.log(category);
+
+  // const url = `https://edamam-recipe-search.p.rapidapi.com/search?q=${category}&from=0&to=100`
+  // const fetch_response = await fetch(url);
+  // const json = await fetch_response.json();
+  // response.json(json);
+})
 
 
 router.get('/:step', function (req, res, next) {
@@ -66,15 +92,14 @@ router.post('/:step/:id', function (req, res, next) {
 
 });
 
-
 function validate(bank, accounts) {
   var alertMessages = [];
   if (typeof bank === 'string')
-  alertMessages.push(bank);
+    alertMessages.push(bank);
   if (typeof accounts === 'string')
-  alertMessages.push(accounts);
+    alertMessages.push(accounts);
 
-  if (alertMessages.length > 0){
+  if (alertMessages.length > 0) {
     alert(alertMessages.join('\n'));
     return false;
   }

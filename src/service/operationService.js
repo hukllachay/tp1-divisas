@@ -17,7 +17,16 @@ const OperationService = function() {
 
         var result = await operationModel.Save(itemFormatted);
 
-        item.id = result.affectedRows > 0 ? insertId : 0;
+        console.log(result);
+        
+        return result;
+
+        // if (result.affectedRows > 0) 
+        //     return result;
+        // else
+        //     return result;
+
+        //item.id = result.affectedRows > 0 ? result.insertId : 0;
 
     };
 
