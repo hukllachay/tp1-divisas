@@ -16,7 +16,7 @@ router.get('/', async function (req, res, next) {
 
   //Trae lista de bancos y cuentas del usuario
   var bankResult = await bankService.List();
-  var bankAccountResult = await bankAccountService.SearchByUser(1); // 1 = usuario_id
+  var bankAccountResult = await bankAccountService.SearchByUser(3); // 3 = usuario_id
 
   data.bancos = bankResult;
   data.cuentasBancarias = JSON.stringify(bankAccountResult);
@@ -65,17 +65,6 @@ router.post('/save', async (request, response) => {
 
   var result = await operationService.Save(item);
   console.log(result, "result");
-  //response.json(JSON.stringify(result))
-
-  // const data = await request.body;
-  // const gotData = data.categoryChoice;
-  // const category = gotData;
-  // console.log(category);
-
-  // const url = `https://edamam-recipe-search.p.rapidapi.com/search?q=${category}&from=0&to=100`
-  // const fetch_response = await fetch(url);
-  // const json = await fetch_response.json();
-  // response.json(json);
 })
 
 
