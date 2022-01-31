@@ -63,7 +63,7 @@
         <div id="divStep2" class="row">
             <div class="paso-descripcion container text-center">
                 <h1>Paso 2/3: </h1>
-                <p>Confrimar datos de operación</p>
+                <p>Verificar datos de operación</p>
                 <div class="btn-group" role="group" aria-label="Basic example">
                     <button type="button" class="btn"><i class="fas fa-check"></i></button>
                     <button type="button" class="btn active">2</button>
@@ -103,6 +103,49 @@
                 </div>
             </div>
         </div>
+        <div id="divStep3" class="row">
+            <div class="paso-descripcion container text-center">
+                <h1>Paso 3/3: </h1>
+                <p>Confirmación de Operación</p>
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <button type="button" class="btn"><i class="fas fa-check"></i></button>
+                    <button type="button" class="btn"><i class="fas fa-check"></i></button>
+                    <button type="button" class="btn active">3</button>
+                </div>
+                <div class="mb-4">
+                    <img src="/images/success-green-check-mark.svg" alt="Historial de operaciones" width="90">
+                </div>
+
+                <h6> ¡Felicidades! Se realizó la operación con exito. Se deposito <strong id="strMonto"></strong> en su cuenta <strong id="strCuenta"></strong>.</h6>
+            </div>
+            <div class="row d-flex justify-content-center">
+                <div class="detalle-transaccion col-sm-12 col-md-6 col-xl-4">
+                    <div>
+                        <p class="detalle-marcador">Cuenta Origen:</p>
+                        <p id="pCuentaOrigin2"></p>
+                    </div>
+                    <div>
+                        <p class="detalle-marcador">Cuenta Destino:</p>
+                        <p id="pCuentaDestino2"></p>
+                    </div>
+                    <div>
+                        <p class="detalle-marcador">Monto cobrado</p>
+                        <p id="pMontoOrigen2"></p>
+                    </div>
+                    <div>
+                        <p class="detalle-marcador">Monto despotiado</p>
+                        <p id="pMontoDestino2"></p>
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <button type="button" class="btn btn-light btn-continuar" onClick="window.location.reload();"><i class="far fa-hand-point-left"></i>
+                            Realizar otra operación</button>
+                        <button type="button" class="btn btn-light btn-continuar" onClick="window.location.href= '/history'">Ver operaciones
+                            <i class="far fa-hand-point-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </main>
 
     <script>
@@ -116,9 +159,9 @@
         let cboCuentaDestino = document.getElementById("cboOrigenDestino");
         let divStep1 = document.getElementById("divStep1");
         let divStep2 = document.getElementById("divStep2");
+        let divStep3 = document.getElementById("divStep3");
         let lblDolares = document.getElementById("lblDolares");
         let lblSoles = document.getElementById("lblSoles");
-        //let divStep2 = document.getElementById("divStep3");
         let btnNext = document.getElementById("btnNext");
         let btnPrevious = document.getElementById("btnPrevious");
         let btnConfirm = document.getElementById("btnConfirm");
@@ -129,6 +172,7 @@
         txtSoles.onkeyup = calcularInput1;
         txtDolares.onkeyup = calcularInput2;
         divStep2.setAttribute("class", "row d-none");
+        divStep3.setAttribute("class", "row d-none");
 
         cboBanco.onchange = function () {
             let cuentasOrigin = btnCambio.getAttribute("data-extra") == 1 ? bankAccountResult.soles : bankAccountResult.dollar;
@@ -179,8 +223,8 @@
 
         btnNext.onclick = function () {
             document.getElementById("pBanco").innerText = cboBanco.options[cboBanco.selectedIndex].text;
-            document.getElementById("pCuentaOrigin").innerText = cboCuentaOrigin.options[cboBanco.selectedIndex].text;
-            document.getElementById("pCuentaDestino").innerText = cboCuentaDestino.options[cboBanco.selectedIndex].text;
+            document.getElementById("pCuentaOrigin").innerText = cboCuentaOrigin.options[cboCuentaOrigin.selectedIndex].text;
+            document.getElementById("pCuentaDestino").innerText = cboCuentaDestino.options[cboCuentaDestino.selectedIndex].text;
             document.getElementById("pMontoOrigen").innerText = input1.value + " " + input1.getAttribute("data-extra");
             document.getElementById("pMontoDestino").innerText = input2.value + " "+ input2.getAttribute("data-extra");
 
@@ -203,6 +247,29 @@
         }
 
         btnConfirm.onclick = function() {
+            save();
+            divStep2.setAttribute("class", "row d-none");
+            divStep3.setAttribute("class", "row");
+            
+            document.getElementById("strMonto").innerText = input2.value + " "+ input2.getAttribute("data-extra");
+            document.getElementById("strCuenta").innerText = cboBanco.options[cboBanco.selectedIndex].text + " - " + cboCuentaDestino.options[cboCuentaDestino.selectedIndex].text;
+
+            document.getElementById("pCuentaOrigin2").innerText = cboCuentaOrigin.options[cboCuentaOrigin.selectedIndex].text;
+            document.getElementById("pCuentaDestino2").innerText = cboCuentaDestino.options[cboCuentaDestino.selectedIndex].text;
+            document.getElementById("pMontoOrigen2").innerText = input1.value + " " + input1.getAttribute("data-extra");
+            document.getElementById("pMontoDestino2").innerText = input2.value + " "+ input2.getAttribute("data-extra");
+
+        }
+
+        function calcularInput1 () {
+            input2.value = Math.round((input1.value / ratio) * 100) / 100;
+        }
+
+        function calcularInput2 () {
+            input1.value = Math.round((input2.value * ratio) * 100) / 100;
+        }
+
+        function save() {
             let data = { item: item }
 
             let options = {
@@ -224,15 +291,6 @@
                 console.log(result);
             })
         }
-
-        function calcularInput1 () {
-            input2.value = Math.round((input1.value / ratio) * 100) / 100;
-        }
-
-        function calcularInput2 () {
-            input1.value = Math.round((input2.value * ratio) * 100) / 100;
-        }
-
     </script>
 
     <%- include('templates/footer'); -%>
