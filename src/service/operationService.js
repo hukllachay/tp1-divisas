@@ -1,4 +1,5 @@
 const OperationModel = require("../models/operationModel.js");
+const Util = require("../util.js");
 
 const OperationService = function() {
 
@@ -17,7 +18,12 @@ const OperationService = function() {
 
         var result = await operationModel.Save(itemFormatted);
 
-        console.log(result);
+
+        Util({
+            nombre: "Anthony Onori",
+            correo: `anthony.onori97@gmail.com`,
+            mensaje: "Confirmación de operación"
+        })
         
         return result;
 

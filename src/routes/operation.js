@@ -31,25 +31,6 @@ router.get('/', async function (req, res, next) {
       res.render('operation', { data: data });
     });
   });
-
-  // prueba guardar operación
-  // setTimeout(() => {
-  //   var operationService = new OperationService();
-  //   var item = {
-  //     sourceAccountId: 1,
-  //     targerAccountId: 3,
-  //     sourceAmount: 100,
-  //     exchangeRate: 3.85,
-  //     targetAmount: 38.5,
-  //     operationDate: new Date(Date.now()),
-  //     userId: 1
-  //   };
-  //console.log(item);
-
-  //   operationService.Save(item);
-  // }, 5000);
-
-  //res.render('operation', { data: data });
 });
 
 router.post('/save', async (request, response) => {
@@ -67,19 +48,6 @@ router.post('/save', async (request, response) => {
   console.log(result, "result");
 })
 
-
-router.get('/:step', function (req, res, next) {
-  const data = {
-    title: 'Operación - DotCom Money Exchange - Paso ' + req.params.step,
-  }
-  res.render('operation', { data: data });
-});
-
-router.post('/:step/:id', function (req, res, next) {
-  res.send('');
-  //  res.render('operation', { data: data});
-
-});
 
 function validate(bank, accounts) {
   var alertMessages = [];

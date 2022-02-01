@@ -59,7 +59,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div id="divStep2" class="row">
             <div class="paso-descripcion container text-center">
                 <h1>Paso 2/3: </h1>
@@ -94,7 +94,8 @@
                         <p id="pMontoDestino"></p>
                     </div>
                     <div class="d-flex justify-content-center">
-                        <button id="btnPrevious" type="button" class="btn btn-light btn-continuar"><i class="far fa-hand-point-left"></i>
+                        <button id="btnPrevious" type="button" class="btn btn-light btn-continuar"><i
+                                class="far fa-hand-point-left"></i>
                             Anterior</button>
                         <button id="btnConfirm" type="button" class="btn btn-light btn-continuar">Confirmar
                             <i class="far fa-hand-point-right"></i>
@@ -116,7 +117,8 @@
                     <img src="/images/success-green-check-mark.svg" alt="Historial de operaciones" width="90">
                 </div>
 
-                <h6> ¡Felicidades! Se realizó la operación con exito. Se deposito <strong id="strMonto"></strong> en su cuenta <strong id="strCuenta"></strong>.</h6>
+                <h6> ¡Felicidades! Se realizó la operación con exito. Se deposito <strong id="strMonto"></strong> en su
+                    cuenta <strong id="strCuenta"></strong>.</h6>
             </div>
             <div class="row d-flex justify-content-center">
                 <div class="detalle-transaccion col-sm-12 col-md-6 col-xl-4">
@@ -137,9 +139,11 @@
                         <p id="pMontoDestino2"></p>
                     </div>
                     <div class="d-flex justify-content-center">
-                        <button type="button" class="btn btn-light btn-continuar" onClick="window.location.reload();"><i class="far fa-hand-point-left"></i>
+                        <button type="button" class="btn btn-light btn-continuar" onClick="window.location.reload();"><i
+                                class="far fa-hand-point-left"></i>
                             Realizar otra operación</button>
-                        <button type="button" class="btn btn-light btn-continuar" onClick="window.location.href= '/history'">Ver operaciones
+                        <button type="button" class="btn btn-light btn-continuar"
+                            onClick="window.location.href= '/history'">Ver operaciones
                             <i class="far fa-hand-point-right"></i>
                         </button>
                     </div>
@@ -199,7 +203,7 @@
             });
         };
 
-        btnCambio.onclick = function() {
+        btnCambio.onclick = function () {
             if (btnCambio.getAttribute("data-extra") == 1) {
                 btnCambio.setAttribute("data-extra", "2");
                 lblDolares.innerText = "Soles";
@@ -208,7 +212,7 @@
                 input2 = txtSoles;
                 txtSoles.onkeyup = calcularInput2;
                 txtDolares.onkeyup = calcularInput1;
-                input2.dispatchEvent(new KeyboardEvent('keyup', {'key':'1'}));
+                input2.dispatchEvent(new KeyboardEvent('keyup', { 'key': '1' }));
             } else {
                 btnCambio.setAttribute("data-extra", "1");
                 lblDolares.innerText = "Dolares";
@@ -217,7 +221,7 @@
                 input2 = txtDolares;
                 txtSoles.onkeyup = calcularInput1;
                 txtDolares.onkeyup = calcularInput2;
-                input1.dispatchEvent(new KeyboardEvent('keyup', {'key':'1'}));
+                input1.dispatchEvent(new KeyboardEvent('keyup', { 'key': '1' }));
             }
         };
 
@@ -226,7 +230,7 @@
             document.getElementById("pCuentaOrigin").innerText = cboCuentaOrigin.options[cboCuentaOrigin.selectedIndex].text;
             document.getElementById("pCuentaDestino").innerText = cboCuentaDestino.options[cboCuentaDestino.selectedIndex].text;
             document.getElementById("pMontoOrigen").innerText = input1.value + " " + input1.getAttribute("data-extra");
-            document.getElementById("pMontoDestino").innerText = input2.value + " "+ input2.getAttribute("data-extra");
+            document.getElementById("pMontoDestino").innerText = input2.value + " " + input2.getAttribute("data-extra");
 
             document.getElementById("btnStep1").setAttribute("class", "btn");
             document.getElementById("btnStep2").setAttribute("class", "btn active");
@@ -241,31 +245,31 @@
             item.targetAmount = input2.value;
         }
 
-        btnPrevious.onclick = function() {
+        btnPrevious.onclick = function () {
             divStep1.setAttribute("class", "row");
             divStep2.setAttribute("class", "row d-none");
         }
 
-        btnConfirm.onclick = function() {
+        btnConfirm.onclick = function () {
             save();
             divStep2.setAttribute("class", "row d-none");
             divStep3.setAttribute("class", "row");
-            
-            document.getElementById("strMonto").innerText = input2.value + " "+ input2.getAttribute("data-extra");
+
+            document.getElementById("strMonto").innerText = input2.value + " " + input2.getAttribute("data-extra");
             document.getElementById("strCuenta").innerText = cboBanco.options[cboBanco.selectedIndex].text + " - " + cboCuentaDestino.options[cboCuentaDestino.selectedIndex].text;
 
             document.getElementById("pCuentaOrigin2").innerText = cboCuentaOrigin.options[cboCuentaOrigin.selectedIndex].text;
             document.getElementById("pCuentaDestino2").innerText = cboCuentaDestino.options[cboCuentaDestino.selectedIndex].text;
             document.getElementById("pMontoOrigen2").innerText = input1.value + " " + input1.getAttribute("data-extra");
-            document.getElementById("pMontoDestino2").innerText = input2.value + " "+ input2.getAttribute("data-extra");
+            document.getElementById("pMontoDestino2").innerText = input2.value + " " + input2.getAttribute("data-extra");
 
         }
 
-        function calcularInput1 () {
+        function calcularInput1() {
             input2.value = Math.round((input1.value / ratio) * 100) / 100;
         }
 
-        function calcularInput2 () {
+        function calcularInput2() {
             input1.value = Math.round((input2.value * ratio) * 100) / 100;
         }
 
@@ -282,7 +286,7 @@
 
             var promise = fetch('/operation/save', options);
             promise.then(response => {
-                if(!response.ok){
+                if (!response.ok) {
                     console.error(response)
                 } else {
                     return response.json();
@@ -291,6 +295,33 @@
                 console.log(result);
             })
         }
+
+
+        setInputFilter(txtSoles, function (value) {
+            return /^\d*\.?\d*$/.test(value); // Allow digits and '.' only, using a RegExp
+        });
+
+        setInputFilter(txtDolares, function (value) {
+            return /^\d*\.?\d*$/.test(value); // Allow digits and '.' only, using a RegExp
+        });
+
+        function setInputFilter(textbox, inputFilter) {
+            ["input", "keydown", "keyup", "mousedown", "mouseup", "select", "contextmenu", "drop"].forEach(function (event) {
+                textbox.addEventListener(event, function () {
+                    if (inputFilter(this.value)) {
+                        this.oldValue = this.value;
+                        this.oldSelectionStart = this.selectionStart;
+                        this.oldSelectionEnd = this.selectionEnd;
+                    } else if (this.hasOwnProperty("oldValue")) {
+                        this.value = this.oldValue;
+                        this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
+                    } else {
+                        this.value = "";
+                    }
+                });
+            });
+        }
+
     </script>
 
     <%- include('templates/footer'); -%>
