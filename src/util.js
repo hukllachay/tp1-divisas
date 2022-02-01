@@ -31,8 +31,8 @@ const envio_mail = (objParams) => {
     transporter.sendMail({
         from: 'anthony.onori@hotmail.com',
         to: objParams.correo, //`anthony.onori97@gmail.com` //'mauchp0311@gmail.com',
-        subject: "Confirmación de operación - DOTCOM", // Subject line
-        text: ` ${objParams.nombre} : ${objParams.correo} \n ${objParams.mensaje}`
+        subject: objParams.asunto,//"Confirmación de operación - DOTCOM", // Subject line
+        text: objParams.mensaje
     }, (err, info) => {
         console.log(err, "err");
         console.log(err, "info");

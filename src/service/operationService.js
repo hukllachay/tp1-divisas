@@ -18,13 +18,34 @@ const OperationService = function() {
 
         var result = await operationModel.Save(itemFormatted);
 
+        var d = new Date,
+        dformat = [d.getDate(), d.getMonth()+1, d.getFullYear()].join('/')+' '+
+                  [d.getHours(), d.getMinutes()].join(':');
+
+        var moneyType = item.moneyType.split("_");
 
         Util({
+            asunto: "Confirmación de operación - DOTCOM - " + dformat,
             nombre: "Anthony Onori",
+            fechaoperacion: dformat,
             correo: `anthony.onori97@gmail.com`,
-            mensaje: "Confirmación de operación"
-        })
+            mensaje: `
+            ¡Felicidades! Se realizó la operación con exito. Se deposito ${item.targetAmount + ' - ' + moneyType[1]} en su cuenta ${item.bankText}.
+            \n
+            Resumen de operación:
+            \n
+            Fecha de operación: ${dformat}
+            Cuenta Origen: ${item.bankText}
+            Cuenta origen: ${item.sourceAccountText}
+            Cuenta Destino: ${item.targerAccountText}
+            Monto cobrado: ${item.sourceAmount + ' - ' + moneyType[0]}
+            Monto despotiado: ${item.targetAmount + ' - ' + moneyType[1]}
+            \n
+            Atentamente el equipo de DOTCOM.
+            `
+        });      
         
+
         return result;
 
         // if (result.affectedRows > 0) 

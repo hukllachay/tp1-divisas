@@ -135,7 +135,7 @@
                         <p id="pMontoOrigen2"></p>
                     </div>
                     <div>
-                        <p class="detalle-marcador">Monto despotiado</p>
+                        <p class="detalle-marcador">Monto despositado</p>
                         <p id="pMontoDestino2"></p>
                     </div>
                     <div class="d-flex justify-content-center">
@@ -243,6 +243,10 @@
             item.sourceAmount = input1.value;
             item.exchangeRate = ratio;
             item.targetAmount = input2.value;
+            item.bankText = cboBanco.options[cboBanco.selectedIndex].text;
+            item.sourceAccountText = cboCuentaOrigin.options[cboCuentaOrigin.selectedIndex].text;
+            item.targerAccountText = cboCuentaDestino.options[cboCuentaDestino.selectedIndex].text;
+            item.moneyType = input1.getAttribute("data-extra") + '_' + input2.getAttribute("data-extra");
         }
 
         btnPrevious.onclick = function () {
