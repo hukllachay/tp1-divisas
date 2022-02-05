@@ -1,2 +1,30 @@
 <%- include('templates/header'); -%>
+<main>
+    <div class="formulario-cuenta">
+        <h2>Registrar Nueva Cuenta Bancaria</h2>
+        <form class="form-signin" method="POST" action="http://localhost:3000/usuarios/">
+            <div class="form-group">
+                <label for="nombrecuenta">Ingrese un nombre para la cuenta bancaria</label>
+                <input type="text" class="form-control" id="nombrecuenta" required name="nombrecuenta">
+            </div>
+
+             <div class="form-group">
+                <label for="numerocuenta">Ingrese el Numero de Cuenta</label>
+                <input type="text" class="form-control" id="numerocuenta" required name="numerocuenta">
+            </div>
+            <div class="form-group">
+                <label for="tipoCuenta">Tipo de Cuenta</label>
+                <select class="form-control" id="tipocuenta" required name="id_tipo_cuenta">
+                    <option>Seleccione una cuenta</option>
+                    <option value="1">Soles</option>
+                    <option value="2">Dolares</option>
+                </select>
+            </div>
+            <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-light btn-continuar">Registrar Cuenta
+                </button>
+            </div>
+        </form>
+    </div>
+</main>
 <%- include('templates/footer'); -%>
