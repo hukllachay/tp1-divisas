@@ -226,27 +226,29 @@
         };
 
         btnNext.onclick = function () {
-            document.getElementById("pBanco").innerText = cboBanco.options[cboBanco.selectedIndex].text;
-            document.getElementById("pCuentaOrigin").innerText = cboCuentaOrigin.options[cboCuentaOrigin.selectedIndex].text;
-            document.getElementById("pCuentaDestino").innerText = cboCuentaDestino.options[cboCuentaDestino.selectedIndex].text;
-            document.getElementById("pMontoOrigen").innerText = input1.value + " " + input1.getAttribute("data-extra");
-            document.getElementById("pMontoDestino").innerText = input2.value + " " + input2.getAttribute("data-extra");
+            if (validate()) {
+                document.getElementById("pBanco").innerText = cboBanco.options[cboBanco.selectedIndex].text;
+                document.getElementById("pCuentaOrigin").innerText = cboCuentaOrigin.options[cboCuentaOrigin.selectedIndex].text;
+                document.getElementById("pCuentaDestino").innerText = cboCuentaDestino.options[cboCuentaDestino.selectedIndex].text;
+                document.getElementById("pMontoOrigen").innerText = input1.value + " " + input1.getAttribute("data-extra");
+                document.getElementById("pMontoDestino").innerText = input2.value + " " + input2.getAttribute("data-extra");
 
-            document.getElementById("btnStep1").setAttribute("class", "btn");
-            document.getElementById("btnStep2").setAttribute("class", "btn active");
-            divStep1.setAttribute("class", "row d-none");
-            divStep2.setAttribute("class", "row");
+                document.getElementById("btnStep1").setAttribute("class", "btn");
+                document.getElementById("btnStep2").setAttribute("class", "btn active");
+                divStep1.setAttribute("class", "row d-none");
+                divStep2.setAttribute("class", "row");
 
-            //save
-            item.sourceAccountId = cboCuentaOrigin.value;
-            item.targerAccountId = cboCuentaDestino.value;
-            item.sourceAmount = input1.value;
-            item.exchangeRate = ratio;
-            item.targetAmount = input2.value;
-            item.bankText = cboBanco.options[cboBanco.selectedIndex].text;
-            item.sourceAccountText = cboCuentaOrigin.options[cboCuentaOrigin.selectedIndex].text;
-            item.targerAccountText = cboCuentaDestino.options[cboCuentaDestino.selectedIndex].text;
-            item.moneyType = input1.getAttribute("data-extra") + '_' + input2.getAttribute("data-extra");
+                //save
+                item.sourceAccountId = cboCuentaOrigin.value;
+                item.targerAccountId = cboCuentaDestino.value;
+                item.sourceAmount = input1.value;
+                item.exchangeRate = ratio;
+                item.targetAmount = input2.value;
+                item.bankText = cboBanco.options[cboBanco.selectedIndex].text;
+                item.sourceAccountText = cboCuentaOrigin.options[cboCuentaOrigin.selectedIndex].text;
+                item.targerAccountText = cboCuentaDestino.options[cboCuentaDestino.selectedIndex].text;
+                item.moneyType = input1.getAttribute("data-extra") + '_' + input2.getAttribute("data-extra");
+            }
         }
 
         btnPrevious.onclick = function () {
@@ -324,6 +326,26 @@
                     }
                 });
             });
+        }
+
+        function validate() {
+            let messagge = '';
+            let validate = true;
+
+            if (cboBanco.selectedIndex == 0)
+                messagge = 'Seleccion un banco.';
+            else if (cboCuentaOrigin.selectedIndex == 0)
+                messagge = 'Seleccione la cuenta origen.';
+            else if (cboCuentaDestino.selectedIndex == 0)
+                messagge = 'Seleccione la cuenta destino.';
+            else if ((txtSoles.value == '' || txtSoles.value == 0) || (txtDolares.value == '' || txtDolares.value == 0))
+                messagge = 'Ingrese el monto valido a convertir.';
+
+            if (messagge != '') {
+                validate = false;
+                alert(messagge);
+            }
+            return validate;
         }
 
     </script>
