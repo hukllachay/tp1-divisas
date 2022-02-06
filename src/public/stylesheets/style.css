@@ -120,6 +120,10 @@ footer img {
   padding: 5%;
 }
 
+.formulario-cuenta {
+  padding: 5%;
+}
+
 .paso-descripcion .btn {
   background-color: white;
   box-shadow: 0px 0px 6px -1px #6c757d;
@@ -185,6 +189,11 @@ footer img {
 
 /*registrar cuenta bancaria */
 .formulario-registro {
+  padding: 5%;
+  max-width: 60%;
+}
+
+.formulario-cuenta {
   padding: 5%;
   max-width: 60%;
 }

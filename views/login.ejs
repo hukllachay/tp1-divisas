@@ -23,10 +23,23 @@
             </div>
             <% if (data.error) { %>
                 <div class="alert alert-danger" role="alert">
-                    Error - Vuelve a ingresar los datos
+                    Error - <%- data.error.message %>
                 </div>
-             <%   } %>
-            
+            <%   } %>
+            <% if (data.logout) { %>
+                <script type="text/javascript">
+                    localStorage.clear();
+                    document.location.href = '/login';
+                </script>     
+            <%   } %>
+            <% if (userInfo) { %>
+                <% userInfo = userInfo %>
+                <script type="text/javascript">
+                    let userInfo = '<%- JSON.stringify(userInfo) %>'
+                    localStorage.setItem('userInfo', JSON.stringify({userInfo}));
+                    document.location.href = '/home';
+                </script>
+            <% } %>
         </div>
     </div>
 </main>
