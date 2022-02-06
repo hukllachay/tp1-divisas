@@ -120,6 +120,10 @@ footer img {
   padding: 5%;
 }
 
+.formulario-cuenta {
+  padding: 5%;
+}
+
 .paso-descripcion .btn {
   background-color: white;
   box-shadow: 0px 0px 6px -1px #6c757d;
@@ -187,6 +191,11 @@ footer img {
 .formulario-registro {
   padding: 5%;
   max-width: 80%;
+}
+
+.formulario-cuenta {
+  padding: 5%;
+  max-width: 60%;
 }
 
 @media only screen and (max-width: 575px) {

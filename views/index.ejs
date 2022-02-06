@@ -16,26 +16,26 @@
           <form>
             <div class="h6 text-center tarifa">Tipo de cambio del día: <b>S/.  <%-data.ratio-%></b></div>
             <div class="form-group">
-                <label for="solesInput">Soles</label>
-                <input type="text" class="form-control form-control-lg" id="solesInput" autocomplete="false">
+              <label id="lblSoles" for="solesInput">Soles</label>
+              <input type="text" class="form-control form-control-lg" id="txtSoles" autocomplete="false">
             </div>
             <div class="d-grid gap-2">
-                <button class="cambio btn btn-light btn-sm bt-block" type="button"><i class="fas fa-retweet"></i></button>
-            </div>
+                <button id="btnCambio" class="cambio btn btn-light btn-sm bt-block" type="button" data-extra="1" ><i class="fas fa-retweet"></i></button>
+            </div>            
             <div class="form-group">
-                <label for="dolaresInput">Dolares</label>
-                <input type="text" class="form-control form-control-lg" id="dolaresInput" autocomplete="false">
-            </div>
+              <label id="lblDolares" for="dolaresInput">Dolares</label>
+              <input type="text" class="form-control form-control-lg" id="txtDolares" autocomplete="false">
+          </div> 
             <br>
             <div class="form-group">
-              <button class="btn btn-lg btn-warning bt-block btn-login" type="submit">Iniciar sesión</button>
+              <a href="/login" class="btn btn-lg btn-warning bt-block btn-login" >Iniciar sesión</a>
             </div>
         </form>
         </div>
 
           <div class="mensaje-registrar text-center">
               <p>¿Aún no tienes una cuenta con nosotros?</p>
-              <a href="#" class="link-primary lead" style="color: #06AFE4">!Registrate ahora!</a>
+              <a href="/register" class="link-primary lead" style="color: #06AFE4">!Registrate ahora!</a>
           </div>
       </div>
   </div>
@@ -74,12 +74,48 @@
 <br>
 <script>
   let ratio = /<%-data.ratio-%>/.source;
-  let solesInput = document.getElementById("solesInput");
-  let dolaresInput = document.getElementById("dolaresInput");
+  let txtSoles = document.getElementById("txtSoles");
+  let txtDolares = document.getElementById("txtDolares");
+  var input1 = txtSoles;
+  var input2 = txtDolares;
+  txtSoles.onkeyup = calcularInput1;
+  txtDolares.onkeyup = calcularInput2;
 
-  document.addEventListener('keyup', function(){
-    dolaresInput.value = Math.round((solesInput.value * ratio) * 100) / 100;
-  });
+  let btnCambio = document.getElementById("btnCambio");
+  let lblDolares = document.getElementById("lblDolares");
+  let lblSoles = document.getElementById("lblSoles");
+        
+  btnCambio.onclick = function() {    
+    if (btnCambio.getAttribute("data-extra") == 1) {
+        btnCambio.setAttribute("data-extra", "2");
+        lblDolares.innerText = "Soles";
+        lblSoles.innerText = "Dolares";
+        input1 = txtDolares;
+        input2 = txtSoles;
+        txtSoles.onkeyup = calcularInput2;
+        txtDolares.onkeyup = calcularInput1;
+        input2.dispatchEvent(new KeyboardEvent('keyup', {'key':'1'}));
+    } else {
+        btnCambio.setAttribute("data-extra", "1");
+        lblDolares.innerText = "Dolares";
+        lblSoles.innerText = "Soles";
+        input1 = txtSoles;
+        input2 = txtDolares;
+        txtSoles.onkeyup = calcularInput1;
+        txtDolares.onkeyup = calcularInput2;
+        input1.dispatchEvent(new KeyboardEvent('keyup', {'key':'1'}));
+    }
+  };
+  
+  function calcularInput1 () {
+    debugger;
+    input2.value = Math.round((input1.value / ratio) * 100) / 100;
+  }
+
+  function calcularInput2 () {
+    debugger;
+    input1.value = Math.round((input2.value * ratio) * 100) / 100;
+  }
 
   let url = "http://192.190.42.160/ServicioDivisaRest/divisa?deDivisa=PEN&haciaDivisa=USD&monto=1";
   fetch(url, {

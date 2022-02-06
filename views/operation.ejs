@@ -1,82 +1,353 @@
 <%- include('templates/header'); -%>
 
-<main class="formulario-cambio">
-    <div class="paso-descripcion container text-center">
-        <h1>Paso 1/3: </h1>
-        <p> <%-data.title-%> </p>
-        <div class="btn-group" role="group" aria-label="Basic example">
-            <button type="button" class="btn active">1</button>
-            <button type="button" class="btn">2</button>
-            <button type="button" class="btn">3</button>
+    <main class="formulario-cambio">
+        <div id="divStep1" class="row">
+            <div class="paso-descripcion container text-center">
+                <h1>Paso 1/3: </h1>
+                <p>Iniciar operación de cambio de divisas</p>
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <button id="btnStep1" type="button" class="btn active">1</button>
+                    <button id="btnStep2" type="button" class="btn">2</button>
+                    <button type="button" class="btn">3</button>
+                </div>
+            </div>
+            <div class="row d-flex justify-content-center">
+                <div class="formulario col-sm-12 col-md-6 col-xl-4 text-left">
+                    <form action="">
+                        <div class="form-group ">
+                            <label for="banco" class="text-left">Seleccione el banco de origen de tu dinero</label>
+                            <select class="form-control" id="cboBanco">
+                                <% data.bancos.forEach(function(banco) { %>
+                                    <option value="<%= banco.id %>">
+                                        <%= banco.name %>
+                                    </option>
+                                    <% }); %>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="cuentaAhorros">¿De donde envia el dinero?</label>
+                            <select class="form-control" id="cboCuentaOrigen">
+
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="origenFondos">¿Donde desea recibir el dinero?</label>
+                            <select class="form-control" id="cboOrigenDestino">
+
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label id="lblSoles" for="txtSoles">Soles</label>
+                            <input id="txtSoles" type="text" class="form-control" data-extra="Soles">
+                        </div>
+                        <div class="d-grid gap-2 ">
+                            <button id="btnCambio" class="cambio btn btn-light" type="button" data-extra="1"><i
+                                    class="fas fa-sync-alt"></i></button>
+                        </div>
+                        <div class="form-group">
+                            <label id="lblDolares" for="txtDolares">Dolares</label>
+                            <input id="txtDolares" type="text" class="form-control" data-extra="Dolares">
+                        </div>
+                        <div class="h6 text-center">Tipo de cambio del día: S/. <%-data.ratio-%>
+                        </div>
+                        <div class="d-grid gap-2">
+                            <button id="btnNext" type="button" class="btn btn-light btn-continuar">Continuar <i
+                                    class="far fa-hand-point-right"></i></button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
         </div>
-    </div>
-    <div class="formulario col-sm text-left">
-        <form action="">
-            <div class="form-group ">
-                <label for="banco" class="text-left">Seleccione el banco de origen de tu dinero</label>
-                <select class="form-control" id="banco">
-                     <% data.bancos.forEach(function(banco) { %>
-                        <option value="<%= banco.id %>"><%= banco.nombre %></option>
-                     <% }); %>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="cuentaAhorros">Seleccione la cuenta en la que recibiras tu dinero</label>
-                <select class="form-control" id="cuentaAhorros">
-                    <option>cuenta 1</option>
-                    <option>cuenta 2</option>
-                    <option>cuenta 3</option>
 
-                </select>
+        <div id="divStep2" class="row">
+            <div class="paso-descripcion container text-center">
+                <h1>Paso 2/3: </h1>
+                <p>Verificar datos de operación</p>
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <button type="button" class="btn"><i class="fas fa-check"></i></button>
+                    <button type="button" class="btn active">2</button>
+                    <button type="button" class="btn">3</button>
+                </div>
+                <h6>Por favor verifique sus datos esten correctos</h6>
             </div>
-            <div class="form-group">
-                <label for="origenFondos">Seleccione el origen de tus fondos</label>
-                <select class="form-control" id="origenFondos">
-                    <option>cuenta 1</option>
-                    <option>cuenta 2</option>
-                    <option>cuenta 3</option>
-                </select>
+            <div class="row d-flex justify-content-center">
+                <div class="detalle-transaccion col-sm-12 col-md-6 col-xl-4">
+                    <div>
+                        <p class="detalle-marcador">Banco: </p>
+                        <p id="pBanco"></p>
+                    </div>
+                    <div>
+                        <p class="detalle-marcador">Cuenta Origen:</p>
+                        <p id="pCuentaOrigin"></p>
+                    </div>
+                    <div>
+                        <p class="detalle-marcador">Cuenta Destino:</p>
+                        <p id="pCuentaDestino"></p>
+                    </div>
+                    <div>
+                        <p class="detalle-marcador">Monto cobrado</p>
+                        <p id="pMontoOrigen"></p>
+                    </div>
+                    <div>
+                        <p class="detalle-marcador">Monto despotiado</p>
+                        <p id="pMontoDestino"></p>
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <button id="btnPrevious" type="button" class="btn btn-light btn-continuar"><i
+                                class="far fa-hand-point-left"></i>
+                            Anterior</button>
+                        <button id="btnConfirm" type="button" class="btn btn-light btn-continuar">Confirmar
+                            <i class="far fa-hand-point-right"></i>
+                        </button>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="solesInput">Soles</label>
-                <input type="text" class="form-control" id="solesInput">
-            </div>
-            <div class="d-grid gap-2 ">
-                <button class="cambio btn btn-light" type="button"><i class="fas fa-sync-alt"></i></button>
-            </div>
-            <div class="form-group">
-                <label for="dolaresInput">Dolares</label>
-                <input type="text" class="form-control" id="dolaresInput">
-            </div>
-            <div class="h6 text-center">Tipo de cambio del día: S/. <%-data.ratio-%></div>
-            <div class="d-grid gap-2">
-                <button type="button" class="btn btn-light btn-continuar">Continuar <i class="far fa-hand-point-right"></i></button>
-            </div>
+        </div>
+        <div id="divStep3" class="row">
+            <div class="paso-descripcion container text-center">
+                <h1>Paso 3/3: </h1>
+                <p>Confirmación de Operación</p>
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <button type="button" class="btn"><i class="fas fa-check"></i></button>
+                    <button type="button" class="btn"><i class="fas fa-check"></i></button>
+                    <button type="button" class="btn active">3</button>
+                </div>
+                <div class="mb-4">
+                    <img src="/images/success-green-check-mark.svg" alt="Historial de operaciones" width="90">
+                </div>
 
-        </form>
-    </div>
-</main>
+                <h6> ¡Felicidades! Se realizó la operación con exito. Se deposito <strong id="strMonto"></strong> en su
+                    cuenta <strong id="strCuenta"></strong>.</h6>
+            </div>
+            <div class="row d-flex justify-content-center">
+                <div class="detalle-transaccion col-sm-12 col-md-6 col-xl-4">
+                    <div>
+                        <p class="detalle-marcador">Cuenta Origen:</p>
+                        <p id="pCuentaOrigin2"></p>
+                    </div>
+                    <div>
+                        <p class="detalle-marcador">Cuenta Destino:</p>
+                        <p id="pCuentaDestino2"></p>
+                    </div>
+                    <div>
+                        <p class="detalle-marcador">Monto cobrado</p>
+                        <p id="pMontoOrigen2"></p>
+                    </div>
+                    <div>
+                        <p class="detalle-marcador">Monto despositado</p>
+                        <p id="pMontoDestino2"></p>
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <button type="button" class="btn btn-light btn-continuar" onClick="window.location.reload();"><i
+                                class="far fa-hand-point-left"></i>
+                            Realizar otra operación</button>
+                        <button type="button" class="btn btn-light btn-continuar"
+                            onClick="window.location.href= '/history'">Ver operaciones
+                            <i class="far fa-hand-point-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
 
-<script>
-    let ratio = /<%-data.ratio-%>/.source;
-    let solesInput = document.getElementById("solesInput");
-    let dolaresInput = document.getElementById("dolaresInput");
-  
-    document.addEventListener('keyup', function(){
-      dolaresInput.value = Math.round((solesInput.value * ratio) * 100) / 100;
-    });
-  
-    // let url = "http://192.190.42.160/ServicioDivisaRest/divisa?deDivisa=PEN&haciaDivisa=USD&monto=1";
-    // fetch(url, {
-    //           method: 'POST',
-    //           body: {},
-    //           headers: {
-    //             "Content-type": "application/json"
-    //           }
-    //         })
-    //     .then(response => response.json())
-    //     .then(json => console.log(json))
-  
-  </script>
+    <script>
+        let ratio = /<%-data.ratio-%>/.source;
+        let bankAccountResult = JSON.parse(/<%-data.cuentasBancarias-%>/.source);
+        let txtSoles = document.getElementById("txtSoles");
+        let txtDolares = document.getElementById("txtDolares");
+        let btnCambio = document.getElementById("btnCambio");
+        let cboBanco = document.getElementById("cboBanco");
+        let cboCuentaOrigin = document.getElementById("cboCuentaOrigen");
+        let cboCuentaDestino = document.getElementById("cboOrigenDestino");
+        let divStep1 = document.getElementById("divStep1");
+        let divStep2 = document.getElementById("divStep2");
+        let divStep3 = document.getElementById("divStep3");
+        let lblDolares = document.getElementById("lblDolares");
+        let lblSoles = document.getElementById("lblSoles");
+        let btnNext = document.getElementById("btnNext");
+        let btnPrevious = document.getElementById("btnPrevious");
+        let btnConfirm = document.getElementById("btnConfirm");
 
-<%- include('templates/footer'); -%>
+        var item = {};
+        var input1 = txtSoles;
+        var input2 = txtDolares;
+        txtSoles.onkeyup = calcularInput1;
+        txtDolares.onkeyup = calcularInput2;
+        divStep2.setAttribute("class", "row d-none");
+        divStep3.setAttribute("class", "row d-none");
+
+        cboBanco.onchange = function () {
+            let cuentasOrigin = btnCambio.getAttribute("data-extra") == 1 ? bankAccountResult.soles : bankAccountResult.dollar;
+            let cuentasDestino = btnCambio.getAttribute("data-extra") == 1 ? bankAccountResult.dollar : bankAccountResult.soles;
+
+            cboCuentaOrigin.innerHTML = "";
+            cboCuentaDestino.innerHTML = "";
+            cuentasOrigin.forEach(cuentaOrigin => {
+                if (cuentaOrigin.bankid == cboBanco.value || cuentaOrigin.bankid == 0) {
+                    let option1 = document.createElement("option");
+                    option1.value = cuentaOrigin.id;
+                    option1.text = cuentaOrigin.name;
+                    cboCuentaOrigin.appendChild(option1);
+                }
+            });
+
+            cuentasDestino.forEach(cuentaDestino => {
+                if (cuentaDestino.bankid == cboBanco.value || cuentaDestino.bankid == 0) {
+                    let option2 = document.createElement("option");
+                    option2.value = cuentaDestino.id;
+                    option2.text = cuentaDestino.name;
+                    cboCuentaDestino.appendChild(option2);
+                }
+            });
+        };
+
+        btnCambio.onclick = function () {
+            if (btnCambio.getAttribute("data-extra") == 1) {
+                btnCambio.setAttribute("data-extra", "2");
+                lblDolares.innerText = "Soles";
+                lblSoles.innerText = "Dolares";
+                input1 = txtDolares;
+                input2 = txtSoles;
+                txtSoles.onkeyup = calcularInput2;
+                txtDolares.onkeyup = calcularInput1;
+                input2.dispatchEvent(new KeyboardEvent('keyup', { 'key': '1' }));
+            } else {
+                btnCambio.setAttribute("data-extra", "1");
+                lblDolares.innerText = "Dolares";
+                lblSoles.innerText = "Soles";
+                input1 = txtSoles;
+                input2 = txtDolares;
+                txtSoles.onkeyup = calcularInput1;
+                txtDolares.onkeyup = calcularInput2;
+                input1.dispatchEvent(new KeyboardEvent('keyup', { 'key': '1' }));
+            }
+        };
+
+        btnNext.onclick = function () {
+            if (validate()) {
+                document.getElementById("pBanco").innerText = cboBanco.options[cboBanco.selectedIndex].text;
+                document.getElementById("pCuentaOrigin").innerText = cboCuentaOrigin.options[cboCuentaOrigin.selectedIndex].text;
+                document.getElementById("pCuentaDestino").innerText = cboCuentaDestino.options[cboCuentaDestino.selectedIndex].text;
+                document.getElementById("pMontoOrigen").innerText = input1.value + " " + input1.getAttribute("data-extra");
+                document.getElementById("pMontoDestino").innerText = input2.value + " " + input2.getAttribute("data-extra");
+
+                document.getElementById("btnStep1").setAttribute("class", "btn");
+                document.getElementById("btnStep2").setAttribute("class", "btn active");
+                divStep1.setAttribute("class", "row d-none");
+                divStep2.setAttribute("class", "row");
+
+                //save
+                item.sourceAccountId = cboCuentaOrigin.value;
+                item.targerAccountId = cboCuentaDestino.value;
+                item.sourceAmount = input1.value;
+                item.exchangeRate = ratio;
+                item.targetAmount = input2.value;
+                item.bankText = cboBanco.options[cboBanco.selectedIndex].text;
+                item.sourceAccountText = cboCuentaOrigin.options[cboCuentaOrigin.selectedIndex].text;
+                item.targerAccountText = cboCuentaDestino.options[cboCuentaDestino.selectedIndex].text;
+                item.moneyType = input1.getAttribute("data-extra") + '_' + input2.getAttribute("data-extra");
+            }
+        }
+
+        btnPrevious.onclick = function () {
+            divStep1.setAttribute("class", "row");
+            divStep2.setAttribute("class", "row d-none");
+        }
+
+        btnConfirm.onclick = function () {
+            save();
+            divStep2.setAttribute("class", "row d-none");
+            divStep3.setAttribute("class", "row");
+
+            document.getElementById("strMonto").innerText = input2.value + " " + input2.getAttribute("data-extra");
+            document.getElementById("strCuenta").innerText = cboBanco.options[cboBanco.selectedIndex].text + " - " + cboCuentaDestino.options[cboCuentaDestino.selectedIndex].text;
+
+            document.getElementById("pCuentaOrigin2").innerText = cboCuentaOrigin.options[cboCuentaOrigin.selectedIndex].text;
+            document.getElementById("pCuentaDestino2").innerText = cboCuentaDestino.options[cboCuentaDestino.selectedIndex].text;
+            document.getElementById("pMontoOrigen2").innerText = input1.value + " " + input1.getAttribute("data-extra");
+            document.getElementById("pMontoDestino2").innerText = input2.value + " " + input2.getAttribute("data-extra");
+
+        }
+
+        function calcularInput1() {
+            input2.value = Math.round((input1.value / ratio) * 100) / 100;
+        }
+
+        function calcularInput2() {
+            input1.value = Math.round((input2.value * ratio) * 100) / 100;
+        }
+
+        function save() {
+            let data = { item: item }
+
+            let options = {
+                method: 'POST',
+                headers: {
+                    "Content-type": "application/json; charset=UTF-8"
+                },
+                body: JSON.stringify(data)
+            }
+
+            var promise = fetch('/operation/save', options);
+            promise.then(response => {
+                if (!response.ok) {
+                    console.error(response)
+                } else {
+                    return response.json();
+                }
+            }).then(result => {
+                console.log(result);
+            })
+        }
+
+
+        setInputFilter(txtSoles, function (value) {
+            return /^\d*\.?\d*$/.test(value); // Allow digits and '.' only, using a RegExp
+        });
+
+        setInputFilter(txtDolares, function (value) {
+            return /^\d*\.?\d*$/.test(value); // Allow digits and '.' only, using a RegExp
+        });
+
+        function setInputFilter(textbox, inputFilter) {
+            ["input", "keydown", "keyup", "mousedown", "mouseup", "select", "contextmenu", "drop"].forEach(function (event) {
+                textbox.addEventListener(event, function () {
+                    if (inputFilter(this.value)) {
+                        this.oldValue = this.value;
+                        this.oldSelectionStart = this.selectionStart;
+                        this.oldSelectionEnd = this.selectionEnd;
+                    } else if (this.hasOwnProperty("oldValue")) {
+                        this.value = this.oldValue;
+                        this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
+                    } else {
+                        this.value = "";
+                    }
+                });
+            });
+        }
+
+        function validate() {
+            let messagge = '';
+            let validate = true;
+
+            if (cboBanco.selectedIndex == 0)
+                messagge = 'Seleccion un banco.';
+            else if (cboCuentaOrigin.selectedIndex == 0)
+                messagge = 'Seleccione la cuenta origen.';
+            else if (cboCuentaDestino.selectedIndex == 0)
+                messagge = 'Seleccione la cuenta destino.';
+            else if ((txtSoles.value == '' || txtSoles.value == 0) || (txtDolares.value == '' || txtDolares.value == 0))
+                messagge = 'Ingrese el monto valido a convertir.';
+
+            if (messagge != '') {
+                validate = false;
+                alert(messagge);
+            }
+            return validate;
+        }
+
+    </script>
+
+    <%- include('templates/footer'); -%>
