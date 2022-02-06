@@ -47,14 +47,6 @@ const OperationService = function() {
         
 
         return result;
-
-        // if (result.affectedRows > 0) 
-        //     return result;
-        // else
-        //     return result;
-
-        //item.id = result.affectedRows > 0 ? result.insertId : 0;
-
     };
 
 }

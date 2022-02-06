@@ -82,6 +82,7 @@ create table usuario
    contrasena           varchar(100),
    direccion            varchar(250),
    tipodocumento_id     int,
+   numerodocumento      varchar(15),
    correoconfirmado     bool,
    fecharegistro        datetime,
    estado               bool,
