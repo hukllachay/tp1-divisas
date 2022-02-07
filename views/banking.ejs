@@ -1,16 +1,15 @@
 <%- include('templates/header'); -%>
 <main>
-<div class="container">
-  <div class="row justify-content-md-center">
-    <div class="col-10">
-      <div class="formulario-registro">
-        <h2>Registro de nuevo cuenta bancaria</h2>
-        <form
+  <div class="container">
+    <div class="row justify-content-md-center">
+      <div class="col-10">
+        <div class="formulario-registro">
+          <h2>Registro de nuevo cuenta bancaria</h2>
+          <!-- <form
           class="form-signin"
-          method="POST"
-          action="/banking/save"
+          action=""
           id="form"
-        >
+        > -->
           <div class="form-group">
             <label for="nomcuenta">Nombre de CTA.</label>
             <input
@@ -34,17 +33,6 @@
             />
           </div>
           <div class="form-group">
-            <label for="correo">Correo</label>
-            <input
-              type="email"
-              class="form-control"
-              id="correo"
-              required
-              name="correo"
-              autocomplete="off"
-            />
-          </div>
-          <div class="form-group">
             <label for="tipoCuenta">Tipo de cuenta</label>
             <select
               class="form-control"
@@ -52,12 +40,12 @@
               required
               name="id_tipo_documento"
             >
-              <option>Seleccione una opción</option>
+              <option value="">Seleccione una opción</option>
               <option value="0">SOLES</option>
               <option value="1">Dolares</option>
             </select>
           </div>
-          
+
           <div class="form-group">
             <label for="TipoBanco">Banco</label>
             <select
@@ -66,21 +54,30 @@
               required
               name="id_tipo_documento2"
             >
-            <% data.bancos.forEach(function(banco) { %>
+              <% data.bancos.forEach(function(banco) { %>
               <option value="<%= banco.id %>"><%= banco.nombre %></option>
-           <% }); %>
+              <% }); %>
             </select>
           </div>
-
+          <!-- <div class="form-check">
+            <label class="form-check-label" for="dolares">Dolares</label>
+            <input
+              type="checkbox"
+              class="form-check-input"
+              id="dolares" 
+            />
+          </div> -->
           <div class="form-group">
-              <input type="submit" class="btn btn-primary" value="Añadir"/>
-              <input type="button" class="btn btn-light" value="Limpiar"/>
+            <button type="button" class="btn btn-primary" id="grabarCuenta">
+              Grabar
+            </button>
+            <button type="button" class="btn btn-light" id="btnlimpiarCampos">Cancelar</button>
           </div>
-        </form>
+          <!-- </form> -->
+        </div>
       </div>
     </div>
   </div>
-</div>
   <!-- table -->
   <div class="container">
     <table class="table">
@@ -90,45 +87,145 @@
           <th scope="col">Banco</th>
           <th scope="col">Nro cta.</th>
           <th scope="col">Dólares</th>
+          <th scope="col"></th>
         </tr>
       </thead>
       <tbody>
         <% data.cuentas.forEach(function(cuenta) {%>
-          <tr>
-            <!-- <th scope="row"></th> -->
-            <td><%= cuenta.nombre %></td>
-            <td><%= data.bancos.find(banco=>banco.id == cuenta.banco_id).nombre %> </td>
-            <td><%= cuenta.nrocuenta %></td>
-            <td><%= cuenta.esdolares==1 ? 'SI': 'NO' %></td>
-          </tr>
-          <% })%>
-       
+        <tr>
+          <!-- <th scope="row"></th> -->
+          <td><%= cuenta.nombre %></td>
+          <td>
+            <%= data.bancos.find(banco=>banco.id == cuenta.banco_id).nombre %>
+          </td>
+          <td><%= cuenta.nrocuenta %></td>
+          <td><%= cuenta.esdolares==1 ? 'SI': 'NO' %></td>
+          <td data-item="<%= cuenta.id %>">
+            <Button class="btn btn-light btnAction" id="btnDeleteAccount">X</Button>
+          </td>
+        </tr>
+        <% })%>
       </tbody>
     </table>
   </div>
 </main>
 
+<script> 
+  let nomcuenta = document.getElementById("nomcuenta");
+  let nrocuenta = document.getElementById("nrocuenta");
+  let dolares = document.getElementById("dolares");
+  let tipoCuenta = document.getElementById("tipoCuenta");
+  let tipoBanco = document.getElementById("tipoBanco");
+  let btnCuenta = document.getElementById("grabarCuenta");
+  let btnsDeleteAccount = document.getElementsByClassName("btnAction");
+  let btnlimpiarCampos = document.getElementById("btnlimpiarCampos");
+  var item = {};
 
-<script>
-  let nomcuenta = document.getElementById("nomcuenta")
-  let nrocuenta = document.getElementById("nrocuenta")
-  let correo = document.getElementById("correo")
-  let tipoCuenta = document.getElementById("tipoCuenta")
-  let tipoBanco = document.getElementById("tipoBanco")
-
-  // function logSubmit(event) {
-    
-  //   event.preventDefault();
-
-
-
-
-  // }
-
-  // const form = document.getElementById('form');
   
-  // form.addEventListener('submit', logSubmit);
+  btnCuenta.onclick = function () {
+    let values = validarCampos();
+    console.log(values);
+    if (values) {
+      item.banco_id = tipoBanco.value;
+      item.nombre = nomcuenta.value;
+      item.nrocuenta = +nrocuenta.value;
+      item.dolar = tipoCuenta.value === "1" ? true : false;
+      item.estado = true;
+      save();
+    }
+    else{
+      alert("Error al realizar una cuenta, verifica los datos a grabar ")
+    }
+  };
+  
+  for (var i=0; i < btnsDeleteAccount.length; i++) {
 
+      btnsDeleteAccount[i].addEventListener("click",function(oEvent){
+        console.log("ASDASDAS");
+        let target = oEvent.target;
+         if (target.nodeName == "BUTTON") {
+           _id = target.parentElement.getAttribute("data-item");
+         }
+          item.id = +_id
+          eliminar();
+      })
+    }
+ 
+    btnlimpiarCampos.onclick = function(){
+      limpiar();
+    }
+  function save() {
+    let data = { item: item };
 
+    let options = {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+      body: JSON.stringify(data),
+    };
+
+    var promise = fetch("/banking/save", options);
+    promise
+      .then((response) => {
+        if (!response.ok) {
+          console.error(response);
+        } else {
+          return response.json();
+        }
+      })
+      .then((result) => {
+        
+        if(result.affectedRows==1) alert("Se agrego los campos exitosamente");
+      });
+    limpiar();
+  };
+  
+  function eliminar() {
+    let data = { item: item };
+
+    let options = {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+      body: JSON.stringify(data),
+    };
+
+    var promise = fetch("/banking/delete", options);
+    promise
+      .then((response) => {
+        if (!response.ok) {
+          console.error(response);
+        } else {
+          return response.json();
+        }
+      })
+      .then((result) => {
+        console.log(result);
+        if(result.affectedRows==1) alert("Se elimino los campos exitosamente");
+      });
+    // limpiar();
+  };
+  
+  function validarCampos(){
+    //usar regex para validar nomcuenta a texto
+    // debugger;
+
+    return (
+      nomcuenta.value.length > 0 &&
+      nrocuenta.value.length == 14 &&
+      tipoBanco.value &&
+      tipoCuenta.value != ""
+    );
+  };
+  function limpiar() {
+    nomcuenta.value = "";
+    nrocuenta.value = "";
+    // tipoBanco.options[0]
+    // tipoCuenta.innerText = tipoCuenta.options[0].text;
+  }
+
+ 
 </script>
 <%- include('templates/footer'); -%>
