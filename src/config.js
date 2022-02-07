@@ -1,4 +1,5 @@
 module.exports = {
+  
     database2: {
         host: 'localhost',
         user: 'root',

@@ -190,7 +190,7 @@ footer img {
 /*registrar cuenta bancaria */
 .formulario-registro {
   padding: 5%;
-  max-width: 60%;
+  max-width: 80%;
 }
 
 .formulario-cuenta {
@@ -242,3 +242,6 @@ footer img {
 }
 
 
+td{
+  border:2px solid black;
+}
