@@ -1,54 +1,76 @@
 <%- include('templates/header'); -%>
-    <main>
-        <div class="formulario-registro">
-            <h2>Registro de nuevo usuario</h2>
-            <!-- <form class="form-signin" method="POST" action="http://localhost:3000/usuarios/"> -->
-            <form class="form-signin">
-                <div class="form-group">
-                    <label for="txtNombre">Nombres</label>
-                    <input id="txtNombre" type="text" class="form-control" required name="nombre">
-                </div>
-                <div class="form-group">
-                    <label for="txtApellidos">Apellidos</label>
-                    <input id="txtApellidos" type="text" class="form-control" required name="apellidos">
-                </div>
-                <div class="form-group">
-                    <label for="txtCorreo">Correo</label>
-                    <input id="txtCorreo" type="email" class="form-control" required name="correo">
-                </div>
-                <div class="form-group">
-                    <label for="cboTipoDocumento">Tipo de documento</label>
-                    <select id="cboTipoDocumento" class="form-control" required name="id_tipo_documento">
-                        <% data.tipoDocumentos.forEach(function(tipoDocumento) { %>
-                            <option value="<%= tipoDocumento.id %>">
-                                <%= tipoDocumento.name %>
-                            </option>
-                            <% }); %>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="txtNumeroDocumento">Número de documento</label>
-                    <input id="txtNumeroDocumento" type="text" class="form-control" required name="N° documento">
-                </div>
-                <div class="form-group">
-                    <label for="txtDireccion">Dirección</label>
-                    <input id="txtDireccion" type="text" class="form-control" required name="direccion">
-                </div>
-                <div class="form-group">
-                    <label for="txtContrasena">Contraseña</label>
-                    <input id="txtContrasena" type="password" class="form-control" required name="contraseña">
-                </div>
-                <div class="form-group">
-                    <label for="txtContrasena">Confirmar contraseña</label>
-                    <input id="txtContrasenaValidate" type="password" class="form-control" required name="contraseña">
-                </div>
-                <div class="d-grid gap-2">
-                    <button id="btnRegistrar" type="button" class="btn btn-light btn-continuar">Registrar usuario
-                    </button>
-                </div>
-            </form>
+
+<main class="formulario-cambio">
+    <div id="divRegister" class="row">
+        <div class="paso-descripcion container text-center">
+            <h2>Registro de nuevo usuario </h2>
         </div>
-    </main>
+        <div class="row d-flex justify-content-center">
+            <div class="formulario col-sm-12 col-md-8 col-xl-6 text-left">
+                <form action="">
+                    <div class="form-group">
+                        <label for="txtNombre">Nombres</label>
+                        <input id="txtNombre" type="text" class="form-control" required name="nombre">
+                    </div>
+                    <div class="form-group">
+                        <label for="txtApellidos">Apellidos</label>
+                        <input id="txtApellidos" type="text" class="form-control" required name="apellidos">
+                    </div>
+                    <div class="form-group">
+                        <label for="txtCorreo">Correo</label>
+                        <input id="txtCorreo" type="email" class="form-control" required name="correo">
+                    </div>
+                    <div class="form-group">
+                        <label for="cboTipoDocumento">Tipo de documento</label>
+                        <select id="cboTipoDocumento" class="form-control" required name="id_tipo_documento">
+                            <% data.tipoDocumentos.forEach(function(tipoDocumento) { %>
+                                <option value="<%= tipoDocumento.id %>">
+                                    <%= tipoDocumento.name %>
+                                </option>
+                                <% }); %>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="txtNumeroDocumento">Número de documento</label>
+                        <input id="txtNumeroDocumento" type="text" class="form-control" required name="N° documento">
+                    </div>
+                    <div class="form-group">
+                        <label for="txtDireccion">Dirección</label>
+                        <input id="txtDireccion" type="text" class="form-control" required name="direccion">
+                    </div>
+                    <div class="form-group">
+                        <label for="txtContrasena">Contraseña</label>
+                        <input id="txtContrasena" type="password" class="form-control" required name="contraseña">
+                    </div>
+                    <div class="form-group">
+                        <label for="txtContrasena">Confirmar contraseña</label>
+                        <input id="txtContrasenaValidate" type="password" class="form-control" required name="contraseña">
+                    </div>
+                    <div class="d-grid gap-2">
+                        <button id="btnRegistrar" type="button" class="btn btn-light btn-continuar">Registrar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div id="divConfirmation" class="row">
+        <div class="paso-descripcion container text-center">
+            <h2>Registro exitoso</h2>
+            <div class="my-4">
+                <img src="/images/success-green-check-mark.svg" alt="Historial de operaciones" width="90">
+            </div>
+
+            <h6>¡Felicidades! Se registro exitosamente.</h6>
+            <h6>Para utilizar la aplicación, active su cuenta desde el correo enviado a <strong id="strEmail">.</strong></h6>
+            
+            <div class="pt-5 d-flex justify-content-center">
+                <button type="button" class="btn btn-light btn-continuar" onclick="window.location.href= '/'">Volver a Inicio
+                </button>
+            </div>
+        </div>
+    </div>
+</main>
 
     <script>
         let txtNombre = document.getElementById("txtNombre");
@@ -60,9 +82,14 @@
         let txtContrasena = document.getElementById("txtContrasena");
         let txtContrasenaValidate = document.getElementById("txtContrasenaValidate");
         let btnRegistrar = document.getElementById("btnRegistrar");
+        let strEmail = document.getElementById("strEmail");
+        let divRegister = document.getElementById("divRegister");
+        let divConfirmation = document.getElementById("divConfirmation");
 
+        divConfirmation.setAttribute("class", "row d-none");
         btnRegistrar.onclick = function(){
-            save();
+            if (validate())
+                save();
         }
 
         function save() {
@@ -90,11 +117,85 @@
                 if (!response.ok) {
                     console.error(response)
                 } else {
+                    strEmail.innerText = txtCorreo.value;
+                    divRegister.setAttribute("class", "row d-none");
+                    divConfirmation.setAttribute("class", "row");
                     return response.json();
                 }
             }).then(result => {
                 console.log(result);
             })
+        }
+
+        function validate() {
+            let validate = true;
+            let message = '';
+
+            if (txtNombre.value.trim() == '')
+            {
+                message = 'Debe ingresar un nombre.';
+                validate = false;
+            }
+            else if (txtApellidos.value.trim() == '')
+            {
+                message = 'Debe ingresar un apellido.';
+                validate = false;
+            }
+            else if (txtCorreo.value.trim() == '' || !txtCorreo.value.includes('@') || !txtCorreo.value.includes('.com'))
+            {
+                message = 'Debe ingresar un correo valido.';
+                validate = false;
+            }
+            else if (cboTipoDocumento.value == 0)
+            {
+                message = 'Seleccione el tipo de documento.';
+                validate = false;
+            }
+            else if (txtNumeroDocumento.value.length < 8 || txtNumeroDocumento.value.length > 15)
+            {
+                message = 'Debe ingresar un número de documento valido.';
+                validate = false;
+            }
+            else if (txtDireccion.value.trim() == '')
+            {
+                message = 'Debe ingresar una dirección valido.';
+                validate = false;
+            }
+            else if (txtContrasena.value.trim() == '')
+            {
+                message = 'Debe ingresar una contraseña.';
+                validate = false;
+            }
+            else if (txtContrasena.value.trim() != txtContrasenaValidate.value.trim())
+            {
+                message = 'La confirmación de contraseña no coincide con la contraseña.';
+                validate = false;
+            }
+
+            if (message != '')
+                alert(message);
+            return validate;
+        }
+
+        setInputFilter(txtNumeroDocumento, function (value) {
+            return /^\d*\.?\d*$/.test(value); // Allow digits and '.' only, using a RegExp
+        });
+
+        function setInputFilter(textbox, inputFilter) {
+            ["input", "keydown", "keyup", "mousedown", "mouseup", "select", "contextmenu", "drop"].forEach(function (event) {
+                textbox.addEventListener(event, function () {
+                    if (inputFilter(this.value)) {
+                        this.oldValue = this.value;
+                        this.oldSelectionStart = this.selectionStart;
+                        this.oldSelectionEnd = this.selectionEnd;
+                    } else if (this.hasOwnProperty("oldValue")) {
+                        this.value = this.oldValue;
+                        this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
+                    } else {
+                        this.value = "";
+                    }
+                });
+            });
         }
 
     </script>

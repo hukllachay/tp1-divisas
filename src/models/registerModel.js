@@ -13,6 +13,19 @@ const RegisterModel = function() {
 
         return result;
     }
+
+    this.Confirmation = async (id) => {
+        var result = await pool.query('CALL usp_usuario_confirmarcorreo(?)', [id ])
+            .then((result) => {
+                return result;
+            }).catch((err) => {
+                console.log("hubo error en RegisterModel: ", err);
+                result(err, null);
+                return;
+            });
+
+        return result;
+    }
 }
 
 module.exports = RegisterModel;
