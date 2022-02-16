@@ -14,16 +14,29 @@ const db = require("../models/database");
 router.get("/", async function (req, res, next) {
   
   const bancos = await db.query("CALL usp_banco_listar()");
-    // console.log(bancos[0]);
-    let id = 3;
+ 
+    const data = {
+    title: "Inicio - DotCom Money Exchange",
+    bancos: bancos[0],
+  };
+  res.render("banking", { data: data });
+});
+
+router.get("/getCuentas/:id", async function (req, res, next) {
+  
+  let id=req.params.id;
+     console.log("---->",id);
   const cuentas = await db.query(`CALL usp_cuentabancaria_buscarporusuario(${id})`);
     // console.log(cuentas[0]);
     const data = {
     title: "Inicio - DotCom Money Exchange",
-    bancos: bancos[0],
+  
     cuentas: cuentas[0],
   };
-  res.render("banking", { data: data });
+  if(cuentas){
+    res.success = true;
+    
+  }
 });
 
 router.post("/save", async function(req, res, next) {
