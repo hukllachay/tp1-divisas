@@ -91,7 +91,20 @@
         </tr>
       </thead>
       <tbody>
-        
+        <% data.cuentas.forEach(function(cuenta) {%>
+          <tr>
+            <!-- <th scope="row"></th> -->
+            <td><%= cuenta.nombre %></td>
+            <td>
+              <%= data.bancos.find(banco=>banco.id == cuenta.banco_id).nombre %>
+            </td>
+            <td><%= cuenta.nrocuenta %></td>
+            <td><%= cuenta.esdolares==1 ? 'SI': 'NO' %></td>
+            <td data-item="<%= cuenta.id %>">
+              <Button class="btn btn-light btnAction" id="btnDeleteAccount">X</Button>
+            </td>
+          </tr>
+          <% })%>
       </tbody>
     </table>
   </div>
@@ -233,6 +246,6 @@
     // tipoCuenta.innerText = tipoCuenta.options[0].text;
   }
 
-  getListCuenta();
+  // getListCuenta();
 </script>
 <%- include('templates/footer'); -%>

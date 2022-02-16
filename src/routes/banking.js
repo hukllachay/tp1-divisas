@@ -1,10 +1,12 @@
 var express = require("express");
 const BankingModel = require("../models/bankingModel");
 var router = express.Router();
-// importar modulo banking
+const db = require("../models/database");
+
+var LocalStorage = require('node-localstorage').LocalStorage;
+var localStorage = new LocalStorage('./scratch');
 
 /* GET home page. */
-const db = require("../models/database");
 
 //Crear lista de bancos
 // const listaBancos = async (req, res) => {
@@ -13,31 +15,34 @@ const db = require("../models/database");
 
 router.get("/", async function (req, res, next) {
   
+
+  var session = JSON.parse(localStorage.getItem('userSession'));
+  console.log("session ",session);
+  console.log("session id ",session.id);
   const bancos = await db.query("CALL usp_banco_listar()");
- 
+  const cuentas = await db.query(`CALL usp_cuentabancaria_buscarporusuario(${session.id})`);
+
+  
     const data = {
     title: "Inicio - DotCom Money Exchange",
     bancos: bancos[0],
-  };
-  res.render("banking", { data: data });
-});
-
-router.get("/getCuentas/:id", async function (req, res, next) {
-  
-  let id=req.params.id;
-     console.log("---->",id);
-  const cuentas = await db.query(`CALL usp_cuentabancaria_buscarporusuario(${id})`);
-    // console.log(cuentas[0]);
-    const data = {
-    title: "Inicio - DotCom Money Exchange",
-  
     cuentas: cuentas[0],
   };
-  if(cuentas){
-    res.success = true;
-    
-  }
+  res.render("banking", { data: data });
+  
 });
+
+// router.get("/getCuentas/:id", async function (req, res, next) {
+  
+//   let id=req.params.id;
+//   console.log(id);
+//     // console.log(cuentas[0]);
+//     const data = {
+//     title: "Inicio - DotCom Money Exchange",
+  
+//   };
+
+// });
 
 router.post("/save", async function(req, res, next) {
   var data = await req.body;

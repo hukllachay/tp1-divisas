@@ -20,8 +20,7 @@ router.get('/', function(req, res, next) {
         modoCambio: 'SD',
         userInfo: session
       }
-
-      console.log("SASD");
+ 
 
       res.render('index', { data: data });
     });

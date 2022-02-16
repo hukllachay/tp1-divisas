@@ -57,7 +57,9 @@ router.post('/', async function(req, res, next) {
     data.error = undefined;
     data.userInfo = { id, nombre, apellidos }
 
-    localStorage.setItem('userSession', JSON.stringify({ id, nombre, apellidos }));
+    let datosSession = JSON.stringify({ id, nombre, apellidos });
+    console.log("datosSession: ",datosSession);
+    localStorage.setItem('userSession', datosSession);
 
     res.render('login', { data: data });
   } else{
