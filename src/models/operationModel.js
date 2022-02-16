@@ -12,7 +12,20 @@ const OperationModel = function() {
             });
 
         return result;
+    }    
+
+    this.SearchByUser = async (userId) => {
+        var result = await pool.query('CALL usp_operaciones_listar(?)', userId)
+            .then((result) => {
+                return result;
+            }).catch((err) => {
+                console.log("Error operaciones: ", err);
+                //result(err, null);
+                return null;
+            });
+        return result;
     }
+
 }
 
 module.exports = OperationModel;

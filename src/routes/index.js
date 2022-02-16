@@ -16,10 +16,12 @@ router.get('/', function(req, res, next) {
         ratio: ratio,
         modoCambio: 'SD'
       }
+
+      console.log("SASD");
+
       res.render('index', { data: data });
     });
   });
-
 
 });
 
