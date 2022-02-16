@@ -58,6 +58,8 @@ router.post('/', async function(req, res, next) {
     data.userInfo = { id, nombre, apellidos }
 
     localStorage.setItem('userSession', JSON.stringify({ id, nombre, apellidos }));
+    var session = JSON.parse(localStorage.getItem('userSession'));
+    console.log(session);
 
     res.render('login', { data: data });
   } else{
@@ -66,8 +68,8 @@ router.post('/', async function(req, res, next) {
     return res.render('login', { data: data });
   }
 
-  console.log("user: " + user);
-  console.log("password: " + password);
+  //console.log("user: " + user);
+  //console.log("password: " + password);
 
   //res.redirect('/home');
  
