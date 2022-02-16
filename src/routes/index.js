@@ -20,8 +20,6 @@ router.get('/', function(req, res, next) {
         modoCambio: 'SD',
         userInfo: session
       }
- 
-
       res.render('index', { data: data });
     });
   });
