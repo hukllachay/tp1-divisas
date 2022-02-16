@@ -17,18 +17,8 @@ router.get('/', async function(req, res, next) {
     operaciones: operacionesdb[0]
   };
 
-  try {    
-    
-
-    //data.cuentas = cuentas;
-    //data.operaciones = operaciones[0];
-    if(data.operaciones.length>0)
+  if(data.operaciones.length>0)
         data.vacio = 'NO';
-  }
-  catch(error)
-  {
-    data.error = error;
-  }
 
   res.render('history', { data: data });
 });
