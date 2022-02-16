@@ -1,21 +1,15 @@
 var express = require('express');
 var router = express.Router();
+var LocalStorage = require('node-localstorage').LocalStorage;
+var localStorage = new LocalStorage('./scratch');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-
-  console.log(req.session);
-  /*
-  if (req.session === undefined || req.session == null) {
-    res.redirect('/history');
-  }
-  */
+  var session = JSON.parse(localStorage.getItem('userSession'));
  
-  const data = {
+  var data = {
     title: 'Inicio - DoctCom Money Exchange',
-    user: {
-      name: 's',
-    },
+    userInfo: session
   };
   
   res.render('home', { title: '', data: data });
