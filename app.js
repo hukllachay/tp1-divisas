@@ -14,6 +14,8 @@ var historyRouter = require('./src/routes/history');
 var operationRouter = require('./src/routes/operation');
 var registerRouter = require('./src/routes/register');
 var bankingRouter = require('./src/routes/banking');
+var LocalStorage = require('node-localstorage').LocalStorage;
+var localStorage = new LocalStorage('./scratch');
 
 var app = express();
 
@@ -53,5 +55,7 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+localStorage.clear();
 
 module.exports = app;

@@ -5,45 +5,51 @@
         <img src="/images/pig-1.svg" alt="Historial de operaciones" width="90" >
     </div>
     <div class="tabla-historial">
-        <table class="table">
+        <table class="table table-responsive table-striped table-bordered table-hover">
             <thead>
-            <tr>
-                <th scope="col">Número de
-                    operación
-                </th>
+            <tr class="table-dark text-center">
+                <th scope="col" style="width: 100px;">Número de operación</th>
                 <th scope="col">Fecha</th>
-                <th scope="col">Tipo de
-                    cambio
-                </th>
-                <th scope="col">Monto
-                    enviado
-                </th>
-                <th scope="col">Monto
-                    recibido
-                </th>
-                <th scope="col">Estado</th>
+                <th scope="col">Tipo de cambio</th> 
+                <th scope="col">Monto enviado</th>
+                <th scope="col">Monto recibido</th>
+                <th scope="col">Tarifa</th>
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <th scope="row">1</th>
-                <td>04/07/2021</td>
-                <td>usd a soles</td>
-                <td>1</td>
-                <td>3.99</td>
-                <td>completada</td>
-            </tr>
-            <tr>
-                <th scope="row">2</th>
-                <td>01/07/2021</td>
-                <td>soles a dolares</td>
-                <td>3.99</td>
-                <td>1</td>
-                <td>completada</td>
-            </tr>
+            <% if(data.vacio=='SI') { %>
+                <tr>
+                    <td colspan="6" >Sin Registros</td>
+                </tr>
+            <% } else { %>
+                <% data.operaciones.forEach(function(ope) { %>
+                    <tr>
+                        <td><%= ope.id %></td>
+                        <td><%= ope.fechaoperacion %></td>
+                        <td>
+                        <% if(ope.esdolares==0) { %>
+                            Soles a Dolares
+                            <% } else { %>
+                                Dolares a Soles
+                        <% } %>                                                 
+                        </td>
+                        
+                        <td><%= ope.montoorigen %></td>
+                        <td><%= ope.montodestino %></td>
+                        <td><%= ope.tipocambio %></td>
+                    </tr>
+                <% }); %>
+            <% } %> 
+            
+           
             </tbody>
         </table>
-
+        
     </div>
 </main>
+
+<script>
+    
+</script>
+
 <%- include('templates/footer'); -%>

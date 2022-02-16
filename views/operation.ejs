@@ -292,14 +292,18 @@
 
             var promise = fetch('/operation/save', options);
             promise.then(response => {
-                if (!response.ok) {
-                    console.error(response)
+                if (!response.success) {
+                    console.log(response)
                 } else {
                     return response.json();
                 }
             }).then(result => {
                 console.log(result);
-            })
+            });
+
+            if (promise.success == false){
+                alert(promise.message);
+            }
         }
 
 
@@ -329,21 +333,21 @@
         }
 
         function validate() {
-            let messagge = '';
+            let message = '';
             let validate = true;
 
             if (cboBanco.selectedIndex == 0)
-                messagge = 'Seleccion un banco.';
+                message = 'Seleccion un banco.';
             else if (cboCuentaOrigin.selectedIndex == 0)
-                messagge = 'Seleccione la cuenta origen.';
+                message = 'Seleccione la cuenta origen.';
             else if (cboCuentaDestino.selectedIndex == 0)
-                messagge = 'Seleccione la cuenta destino.';
+                message = 'Seleccione la cuenta destino.';
             else if ((txtSoles.value == '' || txtSoles.value == 0) || (txtDolares.value == '' || txtDolares.value == 0))
-                messagge = 'Ingrese el monto valido a convertir.';
+                message = 'Ingrese el monto valido a convertir.';
 
-            if (messagge != '') {
+            if (message != '') {
                 validate = false;
-                alert(messagge);
+                alert(message);
             }
             return validate;
         }

@@ -32,12 +32,13 @@
                     document.location.href = '/login';
                 </script>     
             <%   } %>
-            <% if (userInfo) { %>
-                <% userInfo = userInfo %>
+            <% if (data.userInfo != null) { %>
+                <% userInfo = data.userInfo %>
                 <script type="text/javascript">
                     let userInfo = '<%- JSON.stringify(userInfo) %>'
-                    localStorage.setItem('userInfo', JSON.stringify({userInfo}));
-                    document.location.href = '/home';
+                    console.log(userInfo);
+                    //localStorage.setItem('userInfo', JSON.stringify({userInfo}));
+                    document.location.href = '/';
                 </script>
             <% } %>
         </div>
