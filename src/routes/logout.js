@@ -10,6 +10,7 @@ router.get('/', async function(req, res, next) {
     logout: 'logout'
   }
   localStorage.clear();
+  //localStorage.setItem('userSession', null);
   res.render('login', { data:data, userInfo: undefined });
 });
 

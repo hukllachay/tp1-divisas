@@ -14,9 +14,15 @@ var localStorage = new LocalStorage('./scratch');
 // };
 
 router.get("/", async function (req, res, next) {
-  
-
   var session = JSON.parse(localStorage.getItem('userSession'));
+
+  console.log(session);
+  if (session == null) {
+    console.log("Usuario no logueado");
+    res.redirect(301, 'http://localhost:8082/login');
+    res.send(null);
+  }
+
   console.log("session ",session);
   console.log("session id ",session.id);
   const bancos = await db.query("CALL usp_banco_listar()");
@@ -27,6 +33,7 @@ router.get("/", async function (req, res, next) {
     title: "Inicio - DotCom Money Exchange",
     bancos: bancos[0],
     cuentas: cuentas[0],
+    userInfo: session
   };
   res.render("banking", { data: data });
   

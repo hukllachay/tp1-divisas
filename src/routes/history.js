@@ -5,10 +5,11 @@ const db = require("../models/database");
 
 var LocalStorage = require('node-localstorage').LocalStorage;
 var localStorage = new LocalStorage('./scratch');
-var session = JSON.parse(localStorage.getItem('userSession'));
+var session;
 
 /* GET home page. */
 router.get('/', async function(req, res, next) {  
+  session = JSON.parse(localStorage.getItem('userSession'));
   console.log("xxxxxxx");  
   if (session == null) {
     console.log("Usuario no logueado");

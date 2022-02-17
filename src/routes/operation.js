@@ -7,14 +7,14 @@ var localStorage = new LocalStorage('./scratch');
 var OperationService = require('../service/operationService');
 var BankService = require('../service/bankService');
 var BankAccountService = require('../service/bankAccountService');
-var session = JSON.parse(localStorage.getItem('userSession'));
-
-var userId = session == null ? null : session.id;
-
+var session;
 /* GET home page. */
 
 router.get('/', async function (req, res, next) {
   var data = { title: 'Iniciar operación de cambio de divisas' };
+  session = JSON.parse(localStorage.getItem('userSession'));
+  
+  var userId = session == null ? null : session.id;
 
   console.log(session);
   if (session == null) {
