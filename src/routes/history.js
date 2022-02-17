@@ -6,33 +6,35 @@ const db = require("../models/database");
 var LocalStorage = require('node-localstorage').LocalStorage;
 var localStorage = new LocalStorage('./scratch');
 var session = JSON.parse(localStorage.getItem('userSession'));
-var userId = session == null ? null : session.id;
 
 /* GET home page. */
-router.get('/', async function(req, res, next) {
-  console.log("xxxxxxx");
-  console.log(session);
+router.get('/', async function(req, res, next) {  
+  console.log("xxxxxxx");  
   if (session == null) {
     console.log("Usuario no logueado");
     res.redirect(301, 'http://localhost:8082/login');
     res.send(null);
   }
+  else {
+    console.log(session);
+    var userId = session == null ? null : session.id;
     //let usId = 1;
-    //const resultadoDatos =  operationService.SearchByUser(usId);
+      //const resultadoDatos =  operationService.SearchByUser(usId);
     const operacionesdb = await db.query(`CALL usp_operaciones_listar(${userId})`);
 
-  const data = {
-    title:  'Cuentas - DotCom Money Exchange',
-    error: 'sin error',
-    vacio: 'SI',
-    operaciones: operacionesdb[0],    
-    userInfo: session
-  };
+    const data = {
+      title:  'Cuentas - DotCom Money Exchange',
+      error: 'sin error',
+      vacio: 'SI',
+      operaciones: operacionesdb[0],    
+      userInfo: session
+    };
 
-  if(data.operaciones.length>0)
-        data.vacio = 'NO';
+    if(data.operaciones.length>0)
+          data.vacio = 'NO';
 
-  res.render('history', { data: data });
+    res.render('history', { data: data });
+}
 });
 
 

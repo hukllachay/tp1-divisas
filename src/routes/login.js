@@ -59,7 +59,9 @@ router.post('/', async function(req, res, next) {
 
     localStorage.setItem('userSession', JSON.stringify({ id, nombre, apellidos }));
     var session = JSON.parse(localStorage.getItem('userSession'));
+    console.log("INI-------------------");
     console.log(session);
+    console.log("-------------------FIN");
 
     res.render('login', { data: data });
   } else{
