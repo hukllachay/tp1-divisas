@@ -92,19 +92,19 @@
       </thead>
       <tbody>
         <% data.cuentas.forEach(function(cuenta) {%>
-        <tr>
-          <!-- <th scope="row"></th> -->
-          <td><%= cuenta.nombre %></td>
-          <td>
-            <%= data.bancos.find(banco=>banco.id == cuenta.banco_id).nombre %>
-          </td>
-          <td><%= cuenta.nrocuenta %></td>
-          <td><%= cuenta.esdolares==1 ? 'SI': 'NO' %></td>
-          <td data-item="<%= cuenta.id %>">
-            <Button class="btn btn-light btnAction" id="btnDeleteAccount">X</Button>
-          </td>
-        </tr>
-        <% })%>
+          <tr>
+            <!-- <th scope="row"></th> -->
+            <td><%= cuenta.nombre %></td>
+            <td>
+              <%= data.bancos.find(banco=>banco.id == cuenta.banco_id).nombre %>
+            </td>
+            <td><%= cuenta.nrocuenta %></td>
+            <td><%= cuenta.esdolares==1 ? 'SI': 'NO' %></td>
+            <td data-item="<%= cuenta.id %>">
+              <Button class="btn btn-light btnAction" id="btnDeleteAccount">X</Button>
+            </td>
+          </tr>
+          <% })%>
       </tbody>
     </table>
   </div>
@@ -119,7 +119,10 @@
   let btnCuenta = document.getElementById("grabarCuenta");
   let btnsDeleteAccount = document.getElementsByClassName("btnAction");
   let btnlimpiarCampos = document.getElementById("btnlimpiarCampos");
-  var item = {};
+  let item = {};
+  let {userInfo} = JSON.parse(localStorage.getItem("userInfo")) 
+  datosUsuario = JSON.parse(userInfo);
+  console.log(datosUsuario);
 
   
   btnCuenta.onclick = function () {
@@ -154,6 +157,23 @@
     btnlimpiarCampos.onclick = function(){
       limpiar();
     }
+
+  function getListCuenta() {
+    var promise = fetch("/banking/getCuentas/"+datosUsuario.id);
+    promise
+      .then((response) => {
+        if (!response.ok) {
+          console.error(response);
+        } else {
+          return response.json();
+        }
+      })
+      .then((result) => {
+        
+       console.log(result);
+      });
+  }
+
   function save() {
     let data = { item: item };
 
@@ -226,6 +246,6 @@
     // tipoCuenta.innerText = tipoCuenta.options[0].text;
   }
 
- 
+  // getListCuenta();
 </script>
 <%- include('templates/footer'); -%>
